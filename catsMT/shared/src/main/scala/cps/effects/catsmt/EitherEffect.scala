@@ -6,7 +6,7 @@ import cps.effects.*
 trait CatsMTEffectSystem[M[_]] extends EffectSystem[M]
 
 
-object EitherEffect { 
+object EitherEffect {
 
 
 
