@@ -6,7 +6,7 @@ val dottyCpsAsyncVersion = "0.9.21"
 
 ThisBuild/version := "0.9.21"
 ThisBuild/versionScheme := Some("semver-spec")
-ThisBuild/organization := "com.github.rssh"
+ThisBuild/organization := "dotty-cps-async"
 ThisBuild/resolvers += Resolver.mavenLocal
 
 Global / concurrentRestrictions += Tags.limit(ScalaJSTags.Link, 1)
@@ -27,7 +27,7 @@ lazy val core  = crossProject(JSPlatform, JVMPlatform)
   .in(file("core"))
   .settings(
     commonSettings,
-    name := "cps-async-effects"
+    name := "cps-effects"
   ).jsSettings(
     scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     scalaJSUseMainModuleInitializer := true,
@@ -35,4 +35,13 @@ lazy val core  = crossProject(JSPlatform, JVMPlatform)
     scalacOptions ++= Seq( "-unchecked", "-explain")
   )
 
+lazy val catsMT  = crossProject(JSPlatform, JVMPlatform)
+  .in(file("catsMT"))
+  .dependsOn(core)
+  .settings(
+    commonSettings,
+    name := "cps-effects-catsmt",
+    libraryDependencies += "com.github.rssh" %%% "cps-async-connect-cats-effect" % "0.9.21",
+    libraryDependencies += "org.typelevel" %%% "cats-effect" % "3.5.4" % Test,
+  )
 
