@@ -1,7 +1,5 @@
 package cps.effects
 
-import cps.CpsMonadContext
-
 trait AskEffectCreation[F[_], E] {
   def ask: F[E]
 }

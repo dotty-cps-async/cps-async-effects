@@ -1,6 +1,6 @@
 package cps.effects.eff
 
-import cats.data.{Reader, Writer}
+import cats.data.Reader
 import cps.effects.AskEffectCreation
 import org.atnos.eff.all.ask as effAsk
 import org.atnos.eff.{Eff, |=}

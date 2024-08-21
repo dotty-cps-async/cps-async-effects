@@ -2,7 +2,7 @@ package cps.effects.eff
 
 import cats.*
 import cats.data.*
-import org.atnos.eff.{ErrorEffect => _, *, given}
+import org.atnos.eff.{EitherEffect => _, *, given}
 import org.atnos.eff.syntax.all.{*, given}
 import cps.effects.{*, given}
 import cps.{*, given}
@@ -18,15 +18,15 @@ object MinExample {
 
   type Stack = Fx.fx4[WriterString, ReaderInt, ReaderStringList, EitherString]
 
-  def getRandomItem[F[_] : EffectSystem : ErrorEffect[String]](number: Int, items: List[String]): F[String] = reify[F] {
+  def getRandomItem[F[_] : EffectSystem : EitherEffect[String, String]](number: Int, items: List[String]): F[String] = reify[F] {
     if (items.size >= number) {
-      util.Random.shuffle(items).take(number).mkString(", ")
+      reflect(right(util.Random.shuffle(items).take(number).mkString(", ")))
     } else {
-      reflect(summon[ErrorEffect[String][F]].raise("incorrect"))
+      reflect(left("incorrect"))
     }
   }
 
-  def program[F[_] : EffectSystem : ErrorEffect[String] : AskEffect[Int] : AskEffect[List[String]] : WriteEffect[String]]: F[String] = reify[F] {
+  def program[F[_] : EffectSystem : EitherEffect[String, String] : AskEffect[Int] : AskEffect[List[String]] : WriteEffect[String]]: F[String] = reify[F] {
     val number = reflect(ask[F, Int])
     val items = reflect(ask[F, List[String]])
     val randomItems = reflect(getRandomItem(number, items))
