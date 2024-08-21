@@ -1,6 +1,5 @@
 package cps.effects.eff
 
-import cats.data.Reader
 import cps.effects.OptionEffectCreation
 import org.atnos.eff.all.{none as effNone, some as effSome}
 import org.atnos.eff.{Eff, |=}
@@ -11,4 +10,4 @@ class EffOptionEffect[R, A](using ([X] =>> Option[X]) |= R) extends OptionEffect
   def none: Eff[R, A] = effNone
 }
 
-given [R, E](using ([X] =>> Reader[E, X]) |= R): EffAskEffect[R, E] = new EffAskEffect
+given [R, A](using ([X] =>> Option[X]) |= R): EffOptionEffect[R, A] = new EffOptionEffect
