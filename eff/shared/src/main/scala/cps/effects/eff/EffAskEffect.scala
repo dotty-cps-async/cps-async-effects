@@ -5,8 +5,8 @@ import cps.effects.AskEffectCreation
 import org.atnos.eff.all.ask as effAsk
 import org.atnos.eff.{Eff, |=}
 
-class EffAskEffect[R, E](using ([X] =>> Reader[E, X]) |= R) extends AskEffectCreation[[X] =>> Eff[R, X], E] {
-  def ask: Eff[R, E] = effAsk[R, E]
+class EffAskEffect[R, A](using ([X] =>> Reader[A, X]) |= R) extends AskEffectCreation[[X] =>> Eff[R, X],A] {
+  def ask: Eff[R, A] = effAsk[R, A]
 }
 
-given [R, E](using ([X] =>> Reader[E, X]) |= R): EffAskEffect[R, E] = new EffAskEffect
+given [R, A](using ([X] =>> Reader[A, X]) |= R): EffAskEffect[R, A] = new EffAskEffect

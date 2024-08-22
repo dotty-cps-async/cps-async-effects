@@ -1,12 +1,12 @@
 package cps.effects
 
-trait AskEffectCreation[F[_], E] {
-  def ask: F[E]
+trait AskEffectCreation[F[_], A] {
+  def ask: F[A]
 }
 
-type AskEffect[E] = [F[_]] =>> AskEffectCreation[F,E]
+type AskEffect[A] = [F[_]] =>> AskEffectCreation[F, A]
 
-def ask[F[_], E](using AskEffectCreation[F, E]) = summon[AskEffectCreation[F, E]].ask 
+def ask[F[_], A](using AskEffectCreation[F, A]) = summon[AskEffectCreation[F, A]].ask
 
 //def ask1[F[_]](using CpsMonadContext[F]) = new AskInferArgs[F]
 //

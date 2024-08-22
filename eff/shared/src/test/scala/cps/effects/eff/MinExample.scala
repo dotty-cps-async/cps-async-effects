@@ -7,7 +7,7 @@ import org.atnos.eff.syntax.all.{*, given}
 import cps.effects.{*, given}
 import cps.{*, given}
 import cps.monads.{*, given}
-import org.atnos.eff.{Eff, Fx, |=}
+import org.atnos.eff.{Eff, Fx}
 
 object MinExample {
 
