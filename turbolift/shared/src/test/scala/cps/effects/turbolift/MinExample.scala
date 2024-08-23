@@ -2,7 +2,8 @@ package cps.effects.turbolift
 
 import turbolift.!!
 import turbolift.effects.*
-import cps.effects.{*, given}
+import cps.effects.EffectSystem
+import cps.effects.turbolift.{*, given}
 import cps.{*, given}
 import cps.monads.{*, given}
 

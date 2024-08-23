@@ -1,7 +1,10 @@
 package cps.effects
 
-trait AskEffectCreation[F[_], A] {
-  def ask: F[A]
+
+trait AskEffectCreation[Fin[_], A] {
+  type FA
+
+  def ask: FA
 }
 
 type AskEffect[A] = [F[_]] =>> AskEffectCreation[F, A]

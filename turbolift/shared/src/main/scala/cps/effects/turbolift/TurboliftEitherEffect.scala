@@ -1,18 +1,19 @@
 package cps.effects.turbolift
 
-import cps.effects.EitherEffectCreation
+import cps.effects.{EffectSystem, EitherEffectCreation}
 import turbolift.{Computation, Effect}
-import turbolift.effects.{ErrorEffect, Error, ErrorSignature}
+import turbolift.effects.{Error, ErrorEffect, ErrorSignature}
 import turbolift.internals.effect.CanPerform
 
-class TurboliftEitherEffect[E, A] extends EitherEffectCreation[[X] =>> Computation[X, Error[E, E]], E, A] with CanPerform[ErrorSignature[E, E]]{
-  override type ThisEffect = Error[E]
+class TurboliftEitherEffectCreator[F[_], E, A](using val r: Error[E], val s: EffectSystem[F])  {
+  type ThisEffect = r.type
   
-  override def left(e: E): Computation[A, ErrorEffect[E, E]] = perform(_.raise(e))
+  def left(e: E): Computation[A, r.type ] = r.raise(e)
 
-  override def right(a: A): Computation[A, ErrorEffect[E, E]] = Computation.pure(a)
+  def right(a: A): Computation[A, Any ] = Computation.pure(a)
 }
 
-given [E, A]: TurboliftEitherEffect[E, A] = new TurboliftEitherEffect[E, A]
+given turbolifEither[E, A, U](using Error[E], TurboliftEffectSystem[U]): TurboliftEitherEffectCreator[[X]=>>Computation[X,U], E, A] =
+  new TurboliftEitherEffectCreator[[X]=>>Computation[X,U],E, A]
 
-
+type EitherEffect[E, A] = [F[_]] =>> TurboliftEitherEffectCreator[F, E, A]
