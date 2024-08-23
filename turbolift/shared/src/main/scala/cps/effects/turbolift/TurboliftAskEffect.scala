@@ -9,7 +9,7 @@ class TurboliftAskEffectCreation[F[_], A](using val r: Reader[A], val s: EffectS
   def ask: Computation[A, r.type] = r.ask
 }
 
-
+// Not need, but we can think about generalization in this way.
 class TurbolliftAskEffectCreator2[U, A](using val r: Reader[A], val s: TurboliftEffectSystem[U]) extends AskEffectCreation[[X] =>> Computation[U,X], A] {
   override type FA = Computation[A, r.type]
   def ask: Computation[A, r.type] = r.ask
@@ -18,7 +18,7 @@ class TurbolliftAskEffectCreator2[U, A](using val r: Reader[A], val s: Turbolift
 given tlAskEffect[U,A](using r: Reader[A], s: TurboliftEffectSystem[U]): TurboliftAskEffectCreation[[X]=>>Computation[X,U], A] =
   new TurboliftAskEffectCreation[[X]=>>Computation[X,U], A]
 
-type AskEffect[A] = [F[_]] =>> TurboliftAskEffectCreation[F, A] 
+type AskEffect[A] = [F[_]] =>> TurboliftAskEffectCreation[F, A]
 
-def ask[F[_], A](using TurboliftAskEffectCreation[F, A]) = 
+def ask[F[_], A](using TurboliftAskEffectCreation[F, A]) =
   summon[TurboliftAskEffectCreation[F, A]].ask
