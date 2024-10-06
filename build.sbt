@@ -6,7 +6,7 @@ val dottyCpsAsyncVersion = "0.9.21"
 
 ThisBuild / version := "0.9.21"
 ThisBuild / versionScheme := Some("semver-spec")
-ThisBuild / organization := "dotty-cps-async"
+ThisBuild / organization := "io.github.dotty-cps-async"
 ThisBuild / resolvers += Resolver.mavenLocal
 
 Global / concurrentRestrictions += Tags.limit(ScalaJSTags.Link, 1)
